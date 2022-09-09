@@ -15,7 +15,6 @@ function Fdbscan(M1,M2)
     %           dbscan clustering without outliers
 
 clc; close all;
-
 %{
 calcs = [];
 
