@@ -7,7 +7,7 @@ addpath('./Export');
 addpath('./Import');
 addpath('./sample');
 addpath('../analyses');
-addpath('../analyses');
+addpath('../Github-repository/dbscanAnalysis');
 
 
 
@@ -22,22 +22,27 @@ addpath('../analyses');
 
 data = pshr_load('HR',{'./sample/HR_A.txt'}, 'ECG', {'./sample/ECG_A.txt'}, 'Affect', {'./sample/A_coding.csv'});
 
-%
+%{
 calcs = [];
 calcs(:,1) = rmssd_calc(data.HR.Raw{1}(:,3), {5,'units'}, false);
 calcs(:,2) = pnnx_calc(data.HR.Raw{1}(:,3), 50, {5,'units'}, false); 
 calcs(:,3) = sdnn_calc(data.HR.Raw{1}(:,3), {5,'units'}, false); 
 calcs(:,4) = sdsd_calc(data.HR.Raw{1}(:,3), {5,'units'}, false); 
-
+%}
 
 
 data.HR.Raw = affect_mark(data.HR.Raw{1}, data.Affect.Times{1}, {'SIB','clothing adjustment'});
 
-calcs(:,5) = data.HR.Raw(:,3); %RRint column
+%calcs(:,5) = data.HR.Raw(:,3); %RRint column
 
+calcs(:,1) = data.HR.Raw(:,3);
+calcs(:,2) = pnnx_calc(data.HR.Raw(:,3), 50, {5,'units'}, false); 
 affect = data.HR.Raw(:,4); %affect column
+labs = {'RRint', 'pnnx'};
 
-Fdbscan(calcs,affect)
+
+
+Fdbscan(calcs,labs,affect)
 
 %
 %dbscanRRfunc('sdsd',data);
