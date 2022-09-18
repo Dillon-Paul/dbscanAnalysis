@@ -43,7 +43,10 @@ affect = data.HR.Raw(:,4);
 
     
 
-    for z = 2:size(M1,2)
+    for z = 2:size(M1,2) %//This necessitates that the M1 matrix must have at least 2 columns,
+                         % while this is fine, it should be reflected in
+                         % the doc string (the Inputs section) at the top
+                         % to let the user know
 
 
         %{   
@@ -61,8 +64,14 @@ affect = data.HR.Raw(:,4);
         affect = M2;
         arr1 = [M1(:,1),M1(:,z),affect];
         
-        idx(:,z) = dbscan(arr1,epsilon,minpoints);
-    
+        idx(:,z) = dbscan(arr1,epsilon,minpoints); %//because z starts at 2, idx(:,1) never
+                                                   % gets assigned any values so it stays a
+                                                   % vector of all zeros. I would account for
+                                                   % this before the function returns idx. 
+                                                   % You can even do something as simple as
+                                                   % idx(:,1) = []; to delete the first
+                                                   % column at the end of the function.
+                                                   
         %PLOTTING  | | |
         %          V V V   
 
@@ -70,12 +79,21 @@ affect = data.HR.Raw(:,4);
         uni = unique(idx(:,z));  %returns array with no reptitions 
         numUni = numel(uni);  %counts number of elements 
         n=numUni;             %set n to total number of unique elements in idx
+        %//because dbscan returns -1 when something is an outlier and x >= 1
+        % for the other groups, by calling numel you get one more than the
+        % number of groups. For example n = numel([-1,1,2,3,4]) will result
+        % in n = 5. This means in the next two for loops you
+        % have an extra loop that does nothing because the largest group
+        % number is n-1. Not really a big deal, but best practice is to
+        % account for this.
+        
         
         % colors
         colorbank = {};
         connectedColorBank = {};
         for i = 1:n
-            colorbank{i} = {rand,rand,rand};
+            colorbank{i} = {rand,rand,rand}; %// haha, neat way to make different colors. Maybe add a check to make sure that
+                                             % you don't get {1,1,1} which would be white and not show up on a plot
             connectedColorBank{i} = string("[" + colorbank{i}{1} + "," + colorbank{i}{2} + "," + colorbank{i}{3} + "]");
         end
 
@@ -83,7 +101,7 @@ affect = data.HR.Raw(:,4);
         %loop generating clusters without outliers
         
 
-        subplot(2,2,z-1)
+        subplot(2,2,z-1) %//this assumes z can be at most 4
         for i = 1:n
             %plot3(arr1(idx1==-1,1),arr1(idx1==-1,2),arr1(idx1==-1,3),'.','color','b')  %all points not assigned a cluster 
             plot3(arr1(idx(:,z)==i,1),arr1(idx(:,z)==i,2),arr1(idx(:,z)==i,3),'.','color',connectedColorBank{i},'MarkerSize',12) % all points in diff clusters
@@ -95,6 +113,7 @@ affect = data.HR.Raw(:,4);
         title(labs{1} + " vs " + labs{z} + " with affect");
         grid on
         grid minor
+        hold off;
         
     end
 
