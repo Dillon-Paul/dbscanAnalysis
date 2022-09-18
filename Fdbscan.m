@@ -1,11 +1,14 @@
 function idx = Fdbscan(M1,labs,M2,epsilon,minpoints)
 %Creates 3D plots of RRint vs calcType vs isAffect with dbscan clustering
     %   Inputs:
-    %       M1 = A n-by-m matrix, where each column is a different feature and each row is a different datapoint
-    %       M2 = A n-by-1 vector of 0's or 1's where 1 is problematic behavior
+    %       M1: [n-by-m matrix] a matrix where each column is a different feature and 
+    %           each row is a different datapoint
+    %       labs: [1-by-m cell array] of string labels for each column in M1
+    %       M2: [n-by-1 vector] of 0's or 1's where 1 is problematic behavior
+    %       epsilon: []
+    %       minpoints: []
     %       method: Either K-means clustering or dbscan analysis
-    %       labs: cell array of labels for each column in M1
-            
+    %       
     %   Outputs:
     %       Function does not return any output values
     %       Function displays two 3D plots with x number of subplots where
