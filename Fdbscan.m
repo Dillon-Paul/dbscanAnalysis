@@ -13,7 +13,7 @@ function idx = Fdbscan(M1,labs,M2,epsilon,minpoints)
     %       
     %   Outputs:
     %       Function does not return any output values //If function
-    %       returns nothing, then what is `idx` for?
+    %       returns nothing, then what is `idx`?
     %       Function displays two 3D plots with x number of subplots where
     %       x=the number of columns-1 of M1 //this isn't that clear
 
@@ -40,7 +40,13 @@ affect = data.HR.Raw(:,4);
 % //obviously remove chunks of commented code if not longer needed
 
 
-
+    %// little trick for figureing out rows and columns of subplots, this
+    %way you alway get the closest square r-by-r set of subplots 
+    % (or 1-by-1, 1-by-2, 1-by-3 in the case of only 3 plots)
+    %for your figures. (May have to tweak this to suit if you are doing
+    %permutations of all features like I'll suggest)
+    row = floor(sqrt(size(M1,2)));
+    col = ceil(size(M1,2)/row);
     
 
     for z = 2:size(M1,2) %//This necessitates that the M1 matrix must have at least 2 columns,
@@ -101,7 +107,7 @@ affect = data.HR.Raw(:,4);
         %loop generating clusters without outliers
         
 
-        subplot(2,2,z-1) %//this assumes z can be at most 4
+        subplot(row,col,z-1) %//this assumes z can be at most 4, so I changed it
         for i = 1:n
             %plot3(arr1(idx1==-1,1),arr1(idx1==-1,2),arr1(idx1==-1,3),'.','color','b')  %all points not assigned a cluster 
             plot3(arr1(idx(:,z)==i,1),arr1(idx(:,z)==i,2),arr1(idx(:,z)==i,3),'.','color',connectedColorBank{i},'MarkerSize',12) % all points in diff clusters
