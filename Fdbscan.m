@@ -5,14 +5,17 @@ function idx = Fdbscan(M1,labs,M2,epsilon,minpoints)
     %           each row is a different datapoint
     %       labs: [1-by-m cell array] of string labels for each column in M1
     %       M2: [n-by-1 vector] of 0's or 1's where 1 is problematic behavior
-    %       epsilon: []
-    %       minpoints: []
-    %       method: Either K-means clustering or dbscan analysis
+    %       epsilon: [] //Include what a recommended value is for this
+    %       minpoints: [] //Include what a recommended value is for this
+    %       method: [] Either K-means clustering or dbscan analysis
+    %       //Add option for not displaying any figures, in case the user
+    %       just wants the idx
     %       
     %   Outputs:
-    %       Function does not return any output values
+    %       Function does not return any output values //If function
+    %       returns nothing, then what is `idx` for?
     %       Function displays two 3D plots with x number of subplots where
-    %       x=the number of columns-1 of M1
+    %       x=the number of columns-1 of M1 //this isn't that clear
 
     %           Raw data with no dbscan/kmeans clustering
     %           dbscan/kmeans clustering without outliers
@@ -34,7 +37,7 @@ data.HR.Raw = affect_mark(data.HR.Raw{1}, data.Affect.Times{1}, {'SIB','clothing
 affect = data.HR.Raw(:,4);
 
 %}
-
+% //obviously remove chunks of commented code if not longer needed
 
 
 
