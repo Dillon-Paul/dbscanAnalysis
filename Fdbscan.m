@@ -20,7 +20,11 @@ function idx = Fdbscan(M1,labs,M2,epsilon,minpoints)
     %           Raw data with no dbscan/kmeans clustering
     %           dbscan/kmeans clustering without outliers
 
-clc; close all;
+clc; close all; %//get rid of this, I get why you had it here for testing, but you don't
+                % want functions that randomly clear and close everything.
+                % If this function was run in a pipline after another
+                % function which plotted, you would be deleting the
+                % previous function's figure.
 %{
 calcs = [];
 
