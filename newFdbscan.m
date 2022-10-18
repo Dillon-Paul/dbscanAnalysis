@@ -44,43 +44,40 @@ function idx = newFdbscan(M1,labs,M2,epsilon,minpoints,plotting)
         end
 
         
-%loop generating clusters without outliers
-        
-%(n choose k) = n!/(k!*(n-k)!)  = number of plots returned
-%where n = size(M1,2) and k = 2
+        %loop generating clusters without outliers
 
-numPlots = factorial(size(M1,2))/(2*factorial(size(M1,2)-2)); 
-        
-pos = 1; %pos of subplot, will increase by one every iteration of inner loop
+        %(n choose k) = n!/(k!*(n-k)!)  = number of plots returned
+        %where n = size(M1,2) and k = 2
+
+        numPlots = factorial(size(M1,2))/(2*factorial(size(M1,2)-2)); 
+
+        pos = 1; %pos of subplot, will increase by one every iteration of inner loop
      
         for j = 1:size(M1,2)-1
-            
-        for k = j+1:size(M1,2)
+            for k = j+1:size(M1,2)
+                subplot(2,ceil(numPlots/2),pos)
+                pos = pos + 1;
 
-        subplot(2,ceil(numPlots/2),pos)
-        pos = pos + 1;
-  
-        for i = 1:n
-            %plot3(arr1(idx1==-1,1),arr1(idx1==-1,2),arr1(idx1==-1,3),'.','color','b')  %all points not assigned a cluster 
-            plot3(M1(idx(:,j+1)==i,j),M1(idx(:,j+1)==i,k),M2(idx(:,j+1)==i,1),'.','color',connectedColorBank{i},'MarkerSize',12) % all points in diff clusters
-            hold on
-        end
+                for i = 1:n
+                    %plot3(arr1(idx1==-1,1),arr1(idx1==-1,2),arr1(idx1==-1,3),'.','color','b')  %all points not assigned a cluster 
+                    plot3(M1(idx(:,j+1)==i,j),M1(idx(:,j+1)==i,k),M2(idx(:,j+1)==i,1),'.','color',connectedColorBank{i},'MarkerSize',12) % all points in diff clusters
+                    hold on
+                end
 
-        xlabel(labs{j})
-        ylabel(labs{k})
-        zlabel("affect")
-        title(labs{j} + " vs " + labs{k} + " with affect");
-        grid on
-        grid minor
-        hold off;
-        
+                xlabel(labs{j})
+                ylabel(labs{k})
+                zlabel("affect")
+                title(labs{j} + " vs " + labs{k} + " with affect");
+                legend;
+                grid on
+                grid minor
+                hold off;
 
-        end 
-        
+
+            end 
         end
     end
-    idx(:,1) = [];  %deletes first column of idx
-    
+    idx(:,1) = [];  %deletes first column of idx    
 end
 
 
